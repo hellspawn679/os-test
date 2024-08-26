@@ -2,7 +2,7 @@ GCCPARAMS = -m32  -fno-use-cxa-atexit -nostdlib -fno-builtin -fno-rtti -fno-exce
 ASPARAMS = --32
 LDPARAMS = -melf_i386
 
-objects = loader.o kernel.o 
+objects = loader.o gdt.o port.o interruptstubs.o interrupts.o kernel.o 
 
 %.o: %.cpp
 	gcc $(GCCPARAMS) -c -o $@ $<
@@ -37,4 +37,4 @@ install: mykernel.bin
 
 .PHONY: clean
 clean:
-	rm -rf obj mykernel.bin mykernel.iso
+	rm -f $(objects) mykernel.bin mykernel.iso
