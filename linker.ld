@@ -6,14 +6,14 @@ SECTIONS
 {
   . = 0x0100000;
 
-  .text :
+  .text ALIGN(4K) : ALIGN(4K)
   {
     *(.multiboot)
     *(.text*)
     *(.rodata)
   }
 
-  .data  :
+  .data ALIGN(4K) : ALIGN(4K)
   {
     start_ctors = .;
     KEEP(*( .init_array ));
@@ -23,10 +23,26 @@ SECTIONS
     *(.data)
   }
 
-  .bss  :
+  .bss ALIGN(4K) : ALIGN(4K)
   {
+    *(COMMON)
     *(.bss)
   }
 
-  /DISCARD/ : { *(.fini_array*) *(.comment) }
+  .note.gnu.build-id ALIGN(4K) : ALIGN(4K)
+  {
+    *(.note.gnu.build-id)
+  }
+
+  .note.GNU-stack ALIGN(4K) : ALIGN(4K)
+  {
+    *(.note.GNU-stack)
+  }
+
+  /DISCARD/ : 
+  { 
+    *(.fini_array*) 
+    *(.comment) 
+    *(.eh_frame)
+  }
 }
